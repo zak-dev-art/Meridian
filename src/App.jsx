@@ -167,7 +167,7 @@ Be concise, motivating, and practical. Help the user plan their day, suggest tas
       }}>
         <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
         <div style={{ fontSize: 40 }}>◈</div>
-        <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 32 }}>Meridian</div>
+        <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 32 }}>Masaa Ni Machache</div>
         <p style={{ color: "#8884aa", fontSize: 14 }}>Your AI-powered daily planner</p>
         <button onClick={signInWithGoogle} style={{
           padding: "14px 32px", borderRadius: 12, background: "#7c6af7",
@@ -217,7 +217,7 @@ Be concise, motivating, and practical. Help the user plan their day, suggest tas
             display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18,
           }}>◈</div>
           <div>
-            <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, letterSpacing: "-0.3px" }}>Meridian</div>
+            <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, letterSpacing: "-0.3px" }}>MNM</div>
             <div style={{ fontSize: 11, color: THEMES.muted, letterSpacing: "0.5px" }}>DAILY PLANNING</div>
           </div>
         </div>

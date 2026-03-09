@@ -13,7 +13,7 @@
 
 - [ ] **Firebase Configuration** 
   - Go to https://firebase.google.com
-  - Create new project named "Meridian"
+  - Create new project named "Masaa Ni Machache"
   - Enable Authentication → Google Sign-In
   - Register web app
   - Copy all 7 config values to `.env`:
@@ -80,7 +80,7 @@ In Vercel Dashboard → Your Project → Settings → Environment Variables:
 In Firebase Console → Authentication → Settings → Authorized Domains:
 
 - [ ] Add `localhost` (for local testing)
-- [ ] Add your Vercel domain (e.g., `meridian.vercel.app`)
+- [ ] Add your Vercel domain (e.g., `masaa-ni-machache.vercel.app`)
 - [ ] Add any custom domains
 
 ### 7. Test Production ⏱️ ~5 minutes
@@ -120,7 +120,7 @@ git push origin main
 
 ## 🎉 You're Done!
 
-Your Meridian app now has:
+Your Masaa Ni Machache app now has:
 - ✅ Google Authentication
 - ✅ Weather Integration
 - ✅ Voice Assistant

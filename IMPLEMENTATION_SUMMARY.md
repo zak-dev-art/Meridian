@@ -73,7 +73,7 @@
 ## 🎨 UI Changes
 
 - Header now shows: Weather | Voice Button | User Profile | Sign Out
-- Login screen with Meridian branding
+- Login screen with Masaa Ni Machache branding
 - Pulsing animation on voice button when listening
 - Weather alerts appear in notification area
 

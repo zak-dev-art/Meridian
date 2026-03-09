@@ -4,7 +4,7 @@
 
 ### 1. Create Firebase Project
 1. Go to [firebase.google.com](https://firebase.google.com)
-2. Click "Add Project" → name it **Meridian** → continue through setup
+2. Click "Add Project" → name it **Masaa Ni Machache** → continue through setup
 
 ### 2. Enable Google Sign-In
 1. In Firebase console → **Authentication** → **Sign-in method**
@@ -12,7 +12,7 @@
 
 ### 3. Register Your Web App
 1. Click the **</>** web icon on the project homepage
-2. Name it **meridian-web** → click **Register app**
+2. Name it **masaa-ni-machache-web** → click **Register app**
 3. Copy the config object shown
 
 ### 4. Update .env File
@@ -71,7 +71,7 @@ git push origin main
 
 ### 3. Update Firebase Authorized Domains
 1. Firebase console → **Authentication** → **Settings** → **Authorized domains**
-2. Add your Vercel domain (e.g., `meridian.vercel.app`)
+2. Add your Vercel domain (e.g., `masaa-ni-machache.vercel.app`)
 
 ---
 

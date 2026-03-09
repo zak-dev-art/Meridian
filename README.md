@@ -1,8 +1,8 @@
-# Meridian
+# Masaa Ni Machache
 
 **A smart daily planner powered by AI to help you track goals and maximize productivity.**
 
-Meridian is a modern goal-tracking and task management app that combines yearly goal planning with daily task execution. Powered by Claude AI, it provides intelligent planning assistance, progress tracking, and real-time motivation to keep you on track.
+Masaa Ni Machache ("Time is Short" in Swahili) is a modern goal-tracking and task management app that combines yearly goal planning with daily task execution. Powered by Claude AI, it provides intelligent planning assistance, progress tracking, and real-time motivation to keep you on track.
 
 ## Features
 
@@ -31,8 +31,8 @@ Meridian is a modern goal-tracking and task management app that combines yearly 
 
 ```bash
 # Clone the repository
-git clone https://github.com/zak-dev-art/Meridian.git
-cd Meridian
+git clone https://github.com/zak-dev-art/Masaa-Ni-Machache.git
+cd masaa-ni-machache
 
 # Install dependencies
 npm install
