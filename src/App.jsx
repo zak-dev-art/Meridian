@@ -1,4 +1,8 @@
 import { useState, useEffect, useRef } from "react";
+import { auth, signInWithGoogle, logOut } from "./firebase";
+import { onAuthStateChanged } from "firebase/auth";
+import { getWeatherForCity, getWeatherAlert } from "./weather";
+import { speak, startListening, buildMorningBriefing } from "./voice";
 
 const THEMES = {
   bg: "#0a0a0f",
@@ -51,12 +55,31 @@ export default function DailyPlanner() {
   const [showAddTask, setShowAddTask] = useState(false);
   const [showAddGoal, setShowAddGoal] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [user, setUser] = useState(null);
+  const [weather, setWeather] = useState(null);
+  const [listening, setListening] = useState(false);
   const chatEndRef = useRef(null);
 
   useEffect(() => {
     const t = setInterval(() => setCurrentTime(new Date()), 1000);
     return () => clearInterval(t);
   }, []);
+
+  useEffect(() => {
+    return onAuthStateChanged(auth, (u) => setUser(u));
+  }, []);
+
+  useEffect(() => {
+    if (user) {
+      getWeatherForCity("Nairobi").then(w => {
+        setWeather(w);
+        tasks.forEach(task => {
+          const alert = getWeatherAlert(w, task.title);
+          if (alert) setAlerts(prev => [{ id: Date.now() + task.id, msg: alert, type: "reminder", time: new Date() }, ...prev]);
+        });
+      });
+    }
+  }, [user]);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -135,6 +158,28 @@ Be concise, motivating, and practical. Help the user plan their day, suggest tas
   const today = currentTime.getDay();
   const priorityColors = { high: THEMES.red, medium: THEMES.gold, low: THEMES.muted };
 
+  if (!user) {
+    return (
+      <div style={{
+        minHeight: "100vh", background: "#0a0a0f", display: "flex",
+        alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 24,
+        fontFamily: "'DM Sans', sans-serif", color: "#e8e6ff",
+      }}>
+        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+        <div style={{ fontSize: 40 }}>◈</div>
+        <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 32 }}>Meridian</div>
+        <p style={{ color: "#8884aa", fontSize: 14 }}>Your AI-powered daily planner</p>
+        <button onClick={signInWithGoogle} style={{
+          padding: "14px 32px", borderRadius: 12, background: "#7c6af7",
+          color: "#fff", border: "none", cursor: "pointer", fontSize: 15,
+          fontFamily: "inherit", fontWeight: 600, marginTop: 8,
+        }}>
+          Sign in with Google
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div style={{
       minHeight: "100vh", background: THEMES.bg, color: THEMES.text,
@@ -188,13 +233,34 @@ Be concise, motivating, and practical. Help the user plan their day, suggest tas
           ))}
         </nav>
 
-        <div style={{ textAlign: "right" }}>
-          <div style={{ fontSize: 20, fontWeight: 600, letterSpacing: "-0.5px", fontVariantNumeric: "tabular-nums" }}>
-            {currentTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" })}
+        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+          {weather && (
+            <div style={{ fontSize: 13, color: "#8884aa" }}>
+              {weather.temp}°C · {weather.description}
+            </div>
+          )}
+          <button onClick={() => {
+            setListening(true);
+            startListening((transcript) => {
+              if (/what.*today|tasks today|schedule/i.test(transcript)) {
+                speak(buildMorningBriefing(user, tasks, goals, weather));
+              } else if (/add task/i.test(transcript)) {
+                const title = transcript.replace(/add task/i, "").trim();
+                if (title) { setTasks(p => [...p, { id: Date.now(), title, done: false, priority: "medium" }]); speak(`Added task: ${title}`); }
+              } else {
+                speak("I didn't understand that. Try saying: what do I have today, or add task followed by the task name.");
+              }
+            }, () => setListening(false));
+          }} style={{
+            width: 38, height: 38, borderRadius: "50%", border: "none", cursor: "pointer",
+            background: listening ? "#f87171" : "#7c6af7", color: "#fff", fontSize: 16,
+            animation: listening ? "pulse 1s infinite" : "none",
+          }}>🎙</button>
+          <div style={{ textAlign: "right" }}>
+            <div style={{ fontSize: 13, fontWeight: 600 }}>{user?.displayName}</div>
+            <button onClick={logOut} style={{ fontSize: 11, color: "#8884aa", background: "none", border: "none", cursor: "pointer" }}>Sign out</button>
           </div>
-          <div style={{ fontSize: 11, color: THEMES.muted }}>
-            {currentTime.toLocaleDateString([], { weekday: "long", month: "short", day: "numeric" })}
-          </div>
+          <img src={user?.photoURL} alt="Profile" style={{ width: 34, height: 34, borderRadius: "50%" }} />
         </div>
       </header>
 
